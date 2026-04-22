@@ -1,0 +1,20 @@
+{
+  "name": "discord-calendar-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Google Calendar reminders",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --no-deprecation src/index.js",
+    "dev": "node --no-deprecation --watch src/index.js",
+    "test": "node --no-deprecation src/test.js"
+  },
+  "keywords": ["discord", "bot", "google-calendar"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "googleapis": "^133.0.0",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.3"
+  }
+}

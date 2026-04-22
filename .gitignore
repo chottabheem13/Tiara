@@ -1,0 +1,9 @@
+node_modules/
+.env
+credentials/*.json
+!.env.example
+*.log
+.DS_Store
+
+# Event tracker data
+data/
