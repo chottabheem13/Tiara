@@ -10,9 +10,22 @@ class CalendarService {
 
   async initialize() {
     try {
-      // Read service account key
-      const keyPath = path.resolve(this.config.serviceAccountKey);
-      const key = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
+      // Read service account key (support both file path and JSON string)
+      let key;
+
+      const keyValue = this.config.serviceAccountKey.trim();
+
+      // Cek apakah ini JSON string (diawali dengan {)
+      if (keyValue.startsWith('{')) {
+        // Parse dari JSON string langsung
+        console.log('📋 Reading service account key from environment variable...');
+        key = JSON.parse(keyValue);
+      } else {
+        // Parse dari file
+        console.log('📂 Reading service account key from file...');
+        const keyPath = path.resolve(keyValue);
+        key = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
+      }
 
       // Create JWT client
       const jwtClient = new google.auth.JWT(

@@ -136,6 +136,24 @@ cp .env.example .env
 
 2. Edit file `.env` dan isi dengan credentials Anda:
 
+**Opsi 1: Paste JSON langsung di .env (Lebih Mudah)**
+```env
+# Discord Bot Configuration
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
+DISCORD_CHANNEL_ID=your_discord_channel_id_here
+
+# Google Calendar Configuration
+GOOGLE_CALENDAR_ID=your_calendar_id@example.com
+GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"your-project","private_key_id":"xxx","private_key":"-----BEGIN PRIVATE KEY-----\nYourPrivateKeyHere\n-----END PRIVATE KEY-----\n","client_email":"your-service-account@your-project.iam.gserviceaccount.com","client_id":"xxx","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40your-project.iam.gserviceaccount.com"}
+
+# Reminder Configuration
+REMINDER_CHANNEL_ID=your_discord_channel_id_here
+
+# Timezone (default: Asia/Jakarta)
+TIMEZONE=Asia/Jakarta
+```
+
+**Opsi 2: Via File JSON**
 ```env
 # Discord Bot Configuration
 DISCORD_BOT_TOKEN=your_discord_bot_token_here
@@ -151,6 +169,11 @@ REMINDER_CHANNEL_ID=your_discord_channel_id_here
 # Timezone (default: Asia/Jakarta)
 TIMEZONE=Asia/Jakarta
 ```
+
+**Tips:**
+- Gunakan **Opsi 1** untuk deployment di Railway, VPS, atau container
+- Gunakan **Opsi 2** untuk development lokal
+- JSON harus dalam satu baris (hapus semua newline)
 
 ### 5. Jalankan Bot
 
