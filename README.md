@@ -149,6 +149,9 @@ GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"your-project"
 # Reminder Configuration
 REMINDER_CHANNEL_ID=your_discord_channel_id_here
 
+# Optional: channel khusus untuk notifikasi event baru / booking baru
+NEW_EVENT_CHANNEL_ID=your_discord_channel_id_here
+
 # Timezone (default: Asia/Jakarta)
 TIMEZONE=Asia/Jakarta
 ```
@@ -165,6 +168,9 @@ GOOGLE_SERVICE_ACCOUNT_KEY=./credentials/google-service-account.json
 
 # Reminder Configuration
 REMINDER_CHANNEL_ID=your_discord_channel_id_here
+
+# Optional: channel khusus untuk notifikasi event baru / booking baru
+NEW_EVENT_CHANNEL_ID=your_discord_channel_id_here
 
 # Timezone (default: Asia/Jakarta)
 TIMEZONE=Asia/Jakarta
@@ -200,6 +206,7 @@ Bot akan otomatis mendeteksi dan mengirim notifikasi ke Discord setiap kali:
 - Ada event baru ditambahkan di Google Calendar
 - Notifikasi berisi detail event baru tersebut
 - Tracking disimpan di `data/tracked-events.json`
+- **First run**: tracker akan di-seed dengan event yang sudah ada (supaya tidak spam), lalu notifikasi hanya untuk event yang dibuat setelah bot jalan
 - **Deteksi setiap 2 menit**, jadi notifikasi akan masuk maksimal 2 menit setelah event dibuat
 
 ## Testing

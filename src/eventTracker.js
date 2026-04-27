@@ -9,6 +9,7 @@ class EventTracker {
     this.dataDir = dataDir;
     this.trackerFile = path.join(dataDir, 'tracked-events.json');
     this.trackedEvents = new Map(); // eventId -> event data
+    this.isFreshStart = false; // true if no tracker file existed at startup
   }
 
   /**
@@ -35,8 +36,10 @@ class EventTracker {
    * Load tracked events dari file
    */
   async load() {
+    const trackerExists = fs.existsSync(this.trackerFile);
+    this.isFreshStart = !trackerExists;
     try {
-      if (fs.existsSync(this.trackerFile)) {
+      if (trackerExists) {
         const data = fs.readFileSync(this.trackerFile, 'utf8');
         const events = JSON.parse(data);
         this.trackedEvents = new Map(Object.entries(events));
@@ -46,6 +49,7 @@ class EventTracker {
         this.trackedEvents = new Map();
       }
     } catch (error) {
+      this.isFreshStart = false;
       console.error('❌ Error loading tracker file:', error.message);
       this.trackedEvents = new Map();
     }
@@ -147,5 +151,40 @@ class EventTracker {
     return removedCount;
   }
 }
+
+/**
+ * Seed tracker with current calendar events WITHOUT sending notifications.
+ * This prevents flooding Discord on first deploy/run.
+ */
+EventTracker.prototype.seed = async function seed(events) {
+  if (!events || events.length === 0) {
+    this.isFreshStart = false;
+    return 0;
+  }
+
+  let added = 0;
+  for (const event of events) {
+    const eventId = event?.id;
+    if (!eventId) continue;
+    if (this.trackedEvents.has(eventId)) continue;
+
+    this.trackedEvents.set(eventId, {
+      id: event.id,
+      summary: event.summary,
+      start: event.start?.toISOString?.() || '',
+      created: event.created,
+      firstSeen: new Date().toISOString(),
+      seeded: true,
+    });
+    added++;
+  }
+
+  if (added > 0) {
+    await this.save();
+  }
+
+  this.isFreshStart = false;
+  return added;
+};
 
 module.exports = EventTracker;

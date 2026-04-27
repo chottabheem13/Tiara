@@ -22,6 +22,14 @@ async function main() {
     const eventTracker = new EventTracker('./data');
     await eventTracker.initialize();
 
+    // Prevent flooding on first run: seed tracker with existing events
+    if (eventTracker.isFreshStart) {
+      console.log('\nSeeding event tracker with existing events (first run)...');
+      const existing = await calendarService.getEventsFromToday(0, 30);
+      const seededCount = await eventTracker.seed(existing);
+      console.log(`Seeded ${seededCount} events. New-event notifications will only fire for events created after this.`);
+    }
+
     const schedulerService = new SchedulerService(
       calendarService,
       discordService,

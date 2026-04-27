@@ -127,6 +127,23 @@ class CalendarService {
       isAllDay: !event.start.dateTime,
       created: event.created,
       updated: event.updated,
+      status: event.status,
+      htmlLink: event.htmlLink,
+      creator: event.creator
+        ? { email: event.creator.email, displayName: event.creator.displayName, self: event.creator.self }
+        : null,
+      organizer: event.organizer
+        ? { email: event.organizer.email, displayName: event.organizer.displayName, self: event.organizer.self }
+        : null,
+      attendees: Array.isArray(event.attendees)
+        ? event.attendees.map(a => ({
+          email: a.email,
+          displayName: a.displayName,
+          responseStatus: a.responseStatus,
+          organizer: a.organizer,
+          self: a.self,
+        }))
+        : [],
     };
   }
 
